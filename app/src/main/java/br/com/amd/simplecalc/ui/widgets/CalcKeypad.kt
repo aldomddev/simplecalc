@@ -27,8 +27,8 @@ fun CalcKeyPad(
             ) { key -> onKeyPressed(key) }
             CalcButton(
                 key = KeyVO(
-                    label = "+/-",
-                    keyType = KeyType.Operation(operation = KeyOperation.INVERT_SIGNAL)
+                    label = "\u221A",
+                    keyType = KeyType.Operation(operation = KeyOperation.SQRT)
                 )
             ) { key -> onKeyPressed(key) }
             CalcButton(
