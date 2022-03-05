@@ -7,65 +7,59 @@ import kotlin.math.sqrt
 
 class CalcProcessorImpl @Inject constructor() : CalcProcessor {
 
-    private val operationsRegex = Regex.fromLiteral("\\s[\\+\\-\\*\\/]{1}\$")
-    private var input = StringBuilder("0")
+    private val operationsRegex = """[$PLUS\$MINUS$MULTIPLY$DIVIDE]""".toRegex()
+    private val inputAccumulator = StringBuilder("0")
 
-    private var value1: Double = 0.0
-    private var value2: Double = 0.0
     private var operation: String = ""
 
     override fun processKey(key: String): String {
         return when {
-            key == PLUS ||
-                    key == MINUS ||
-                    key == MULTIPLY ||
-                    key == DIVIDE -> appendArithmeticOperation(operation = key)
+            key.containsOperationChar() -> appendArithmeticOperation(operation = key)
             key.isDigitsOnly() -> appendDigit(digit = key)
             key == PERCENTAGE -> appendPercentage()
             key == DECIMAL_SEPARATOR -> appendDecimalSeparator()
             key == CLEAR -> clear()
-            key == SQRT -> calcSquaredRoot()
+            key == SQUARED_ROOT -> calcSquaredRoot()
             key == RESULT -> calcResult()
-            else -> input.toString()
+            else -> inputAccumulator.toString()
         }
     }
 
     private fun appendArithmeticOperation(operation: String): String {
-        if (this.operation.isNotEmpty()) return input.toString()
         this.operation = operation
 
-        if (input.contains(operationsRegex)) {
-            input.insert(input.length - 1, operation)
+        if (inputAccumulator.containsOperationChar()) {
+            inputAccumulator.replace(inputAccumulator.length - 2, inputAccumulator.length - 1, operation)
         } else {
-            input.append(" $operation ")
+            inputAccumulator.append(" $operation ")
         }
 
-        return input.toString()
+        return inputAccumulator.toString()
     }
 
     private fun appendDigit(digit: String): String {
-        if (input.toString() == "0") {
-            input[0] = digit[0]
+        if (inputAccumulator.toString() == "0") {
+            inputAccumulator[0] = digit[0]
         } else {
-            input.append(digit)
+            inputAccumulator.append(digit)
         }
-        return input.toString()
+        return inputAccumulator.toString()
     }
 
     private fun appendDecimalSeparator(): String {
-        if (!input.contains(DECIMAL_SEPARATOR)) {
-            input.append(DECIMAL_SEPARATOR)
+        if (!inputAccumulator.contains(DECIMAL_SEPARATOR)) {
+            inputAccumulator.append(DECIMAL_SEPARATOR)
         }
 
-        return input.toString()
+        return inputAccumulator.toString()
     }
 
     private fun appendPercentage(): String {
-        if (input.last().isDigit() && input.last() != PERCENTAGE[0]) {
-            input.append(PERCENTAGE)
+        if (inputAccumulator.last().isDigit() && inputAccumulator.last() != PERCENTAGE[0]) {
+            inputAccumulator.append(PERCENTAGE)
         }
 
-        return input.toString()
+        return inputAccumulator.toString()
     }
 
     private fun calcSquaredRoot(): String {
@@ -78,28 +72,28 @@ class CalcProcessorImpl @Inject constructor() : CalcProcessor {
     }
 
     private fun calcResult(): String {
-        if (input.last().isDigit() || input.last() == PERCENTAGE[0]) {
-            val values = input.split(" $operation ")
+        if (inputAccumulator.last().isDigit() || inputAccumulator.last() == PERCENTAGE[0]) {
+            val values = inputAccumulator.split(" $operation ")
 
             val result = if (operation.isNotEmpty()) {
                 val value1IsPercent = values[0].contains(PERCENTAGE)
                 val value2IsPercent = values[1].contains(PERCENTAGE)
 
-                value1 = if (value1IsPercent) {
+                val value1 = if (value1IsPercent) {
                     values[0].replace(PERCENTAGE, "").toDouble().percentage()
                 } else {
                     values[0].toDouble()
                 }
 
-                value2 = if (value2IsPercent) {
+                val value2 = if (value2IsPercent) {
                     values[1].replace(PERCENTAGE, "").toDouble().percentage()
                 } else {
                     values[1].toDouble()
                 }
 
                 when (operation) {
-                    PLUS -> if (value2IsPercent) value1 + value1 * value2 else value1 + value2
-                    MINUS -> if (value2IsPercent) value1 - value1 * value2 else value1 - value2
+                    PLUS -> if (value2IsPercent) (value1 + value1 * value2) else (value1 + value2)
+                    MINUS -> if (value2IsPercent) (value1 - value1 * value2) else (value1 - value2)
                     MULTIPLY -> value1 * value2
                     DIVIDE -> value1 / value2
                     else -> 0.0
@@ -109,22 +103,23 @@ class CalcProcessorImpl @Inject constructor() : CalcProcessor {
             }
 
             clear()
-            input.replace(0, input.length, result.asFormattedString())
+            inputAccumulator.replace(0, inputAccumulator.length, result.asFormattedString())
         }
 
-        return input.toString()
+        return inputAccumulator.toString()
     }
 
     private fun clear(): String {
-        value1 = 0.0
-        value2 = 0.0
         operation = ""
-
-        input.clear().append("0")
-        return input.toString()
+        inputAccumulator.clear().append("0")
+        return inputAccumulator.toString()
     }
 
     // region extensions
+    private fun String.containsOperationChar() = this.contains(operationsRegex)
+
+    private fun StringBuilder.containsOperationChar() = this.contains(operationsRegex)
+
     private fun Double.percentage() = this.div(100.0)
 
     private fun Double.asFormattedString(): String {
@@ -133,16 +128,14 @@ class CalcProcessorImpl @Inject constructor() : CalcProcessor {
     // endregion
 
     private companion object {
-        const val DIGITS = "0..9"
         const val DECIMAL_SEPARATOR = "."
         const val PLUS = "+"
         const val MINUS = "-"
         const val MULTIPLY = "*"
         const val DIVIDE = "/"
         const val PERCENTAGE = "%"
-        const val INVERT_SIGNAL = "+/-"
         const val RESULT = "="
         const val CLEAR = "C"
-        const val SQRT = "\u221A"
+        const val SQUARED_ROOT = "\u221A"
     }
 }
