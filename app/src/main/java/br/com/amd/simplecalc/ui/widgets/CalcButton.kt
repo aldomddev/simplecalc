@@ -5,7 +5,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import br.com.amd.simplecalc.ui.model.KeyType
+import br.com.amd.simplecalc.domain.model.KeyType
 import br.com.amd.simplecalc.ui.model.KeyVO
 import br.com.amd.simplecalc.ui.theme.SimpleCalculatorTheme
 

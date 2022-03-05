@@ -1,4 +1,4 @@
-package br.com.amd.simplecalc.ui.model
+package br.com.amd.simplecalc.domain.model
 
 sealed class KeyType {
     data class Value(val value: String) : KeyType()
