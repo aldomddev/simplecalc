@@ -129,12 +129,12 @@ class CalcProcessorImpl @Inject constructor() : CalcProcessor {
 
     private companion object {
         const val DECIMAL_SEPARATOR = "."
-        const val PLUS = "+"
-        const val MINUS = "-"
-        const val MULTIPLY = "*"
-        const val DIVIDE = "/"
-        const val PERCENTAGE = "%"
-        const val RESULT = "="
+        const val PLUS = "\u002B"
+        const val MINUS = "\u2212"
+        const val MULTIPLY = "\u00D7"
+        const val DIVIDE = "\u00F7"
+        const val PERCENTAGE = "\u0025"
+        const val RESULT = "\u003D"
         const val CLEAR = "C"
         const val SQUARED_ROOT = "\u221A"
     }

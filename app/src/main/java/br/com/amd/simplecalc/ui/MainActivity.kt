@@ -1,6 +1,7 @@
 package br.com.amd.simplecalc.ui
 
 import android.os.Bundle
+import android.util.DisplayMetrics
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -23,9 +24,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            SimpleCalculatorTheme {
-                // A surface container using the 'background' color from the theme
+            val darkTheme = mainViewModel.darkTheme.value
+
+            SimpleCalculatorTheme(darkTheme = darkTheme) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -40,10 +43,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Calculator(mainViewModel: MainViewModel) {
     val displayValue = mainViewModel.displayValue.value
+    val darkTheme = mainViewModel.darkTheme.value
 
     Column {
         CalcDisplay(value = displayValue)
-        CalcKeyPad(onKeyPressed = { keyVO -> mainViewModel.onKeyPressed(keyVO = keyVO) })
+        CalcKeyPad(
+            darkTheme = darkTheme,
+            onKeyPressed = { keyVO -> mainViewModel.onKeyPressed(keyVO = keyVO) }
+        )
     }
 }
 
