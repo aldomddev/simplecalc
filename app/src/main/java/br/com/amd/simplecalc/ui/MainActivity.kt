@@ -1,7 +1,6 @@
 package br.com.amd.simplecalc.ui
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -10,9 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import br.com.amd.simplecalc.domain.CalcProcessorImpl
 import br.com.amd.simplecalc.ui.theme.SimpleCalculatorTheme
 import br.com.amd.simplecalc.ui.widgets.CalcDisplay
 import br.com.amd.simplecalc.ui.widgets.CalcKeyPad
@@ -27,7 +26,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val darkTheme = mainViewModel.darkTheme.value
+            val darkTheme by mainViewModel.darkTheme
+            val displayValue by mainViewModel.displayValue
             val systemUiController = rememberSystemUiController()
 
             SimpleCalculatorTheme(darkTheme = darkTheme) {
@@ -36,7 +36,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Calculator(mainViewModel)
+                    Calculator(
+                        darkTheme,
+                        displayValue) { key->
+                        mainViewModel.onKeyPressed(key = key)
+                    }
                 }
             }
         }
@@ -44,15 +48,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Calculator(mainViewModel: MainViewModel) {
-    val displayValue = mainViewModel.displayValue.value
-    val darkTheme = mainViewModel.darkTheme.value
+fun Calculator(
+    darkTheme: Boolean,
+    displayValue: String,
+    onKeyPressed: (String) -> Unit
+) {
 
     Column {
         CalcDisplay(value = displayValue)
         CalcKeyPad(
             darkTheme = darkTheme,
-            onKeyPressed = { keyVO -> mainViewModel.onKeyPressed(keyVO = keyVO) }
+            onKeyPressed = { key -> onKeyPressed(key) }
         )
     }
 }
@@ -61,6 +67,6 @@ fun Calculator(mainViewModel: MainViewModel) {
 @Composable
 fun DefaultPreview() {
     SimpleCalculatorTheme {
-        Calculator(MainViewModel(CalcProcessorImpl()))
+        Calculator(darkTheme = true, displayValue = "123") { }
     }
 }
