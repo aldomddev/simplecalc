@@ -16,6 +16,7 @@ import br.com.amd.simplecalc.domain.CalcProcessorImpl
 import br.com.amd.simplecalc.ui.theme.SimpleCalculatorTheme
 import br.com.amd.simplecalc.ui.widgets.CalcDisplay
 import br.com.amd.simplecalc.ui.widgets.CalcKeyPad
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,8 +28,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val darkTheme = mainViewModel.darkTheme.value
+            val systemUiController = rememberSystemUiController()
 
             SimpleCalculatorTheme(darkTheme = darkTheme) {
+                systemUiController.setSystemBarsColor(MaterialTheme.colors.primary)
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background

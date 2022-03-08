@@ -13,7 +13,7 @@ class MainViewModel @Inject constructor(
     private val calcProcessor: CalcProcessor
 ) : ViewModel() {
 
-    private val _darkTheme = mutableStateOf(false)
+    private val _darkTheme = mutableStateOf(true)
     val darkTheme: State<Boolean> = _darkTheme
 
     private val _displayValue = mutableStateOf("0")
