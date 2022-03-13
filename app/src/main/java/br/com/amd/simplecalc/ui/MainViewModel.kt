@@ -18,6 +18,10 @@ class MainViewModel @Inject constructor(
     private val _displayValue = mutableStateOf("0")
     val displayValue: State<String> = _displayValue
 
+    fun onChangeTheme(darkTheme: Boolean) {
+        _darkTheme.value = darkTheme
+    }
+
     fun onKeyPressed(key: String) {
         _displayValue.value = calcProcessor.processKey(key = key)
     }

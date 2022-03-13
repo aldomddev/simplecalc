@@ -19,7 +19,7 @@ fun CalcButton(
     onKeyPressed: (String) -> Unit
 ) {
     Button(
-        modifier = modifier.size(80.dp),
+        modifier = modifier.size(60.dp),
         shape = shape,
         colors = colors,
         elevation = null,

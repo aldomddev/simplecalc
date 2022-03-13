@@ -28,7 +28,7 @@ fun CalcDisplay(
     ) {
         Text(
             text = value,
-            style = MaterialTheme.typography.h1,
+            style = MaterialTheme.typography.h2,
             fontWeight = FontWeight.Bold,
             color = Amber500
         )
