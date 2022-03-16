@@ -1,4 +1,4 @@
-package br.com.amd.simplecalc.domain
+package br.com.amd.simplecalc.domain.calc_processor
 
 import androidx.core.text.isDigitsOnly
 import java.text.DecimalFormat

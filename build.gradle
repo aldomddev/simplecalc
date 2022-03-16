@@ -3,6 +3,7 @@ buildscript {
         compose_version = '1.1.1'
         hilt_version = '2.39.1'
         accompanist_systemuicontroller = '0.23.1'
+        datastore_preferences = '1.0.0'
     }
 
     repositories {

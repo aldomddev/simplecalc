@@ -85,7 +85,6 @@ fun ThemeSwitch(
             modifier = modifier
                 .requiredSize(width, height)
                 .then(toggleableModifier),
-            backgroundColor = MaterialTheme.colors.primary,
             trackColor = trackColor,
             borderColor = borderColor,
             borderWidth = borderWidth
@@ -104,7 +103,6 @@ private fun Track(
     modifier: Modifier,
     trackColor: State<Color>,
     borderColor: State<Color>,
-    backgroundColor: Color,
     borderWidth: Dp
 ) = Box(
     modifier = modifier
@@ -136,7 +134,10 @@ private fun Track(
 }
 
 @Composable
-private fun Thumb(modifier: Modifier, color: State<Color>) = Box(
+private fun Thumb(
+    modifier: Modifier,
+    color: State<Color>
+) = Box(
     modifier = modifier
         .shadow(6.dp, CircleShape)
         .background(color.value, CircleShape)
