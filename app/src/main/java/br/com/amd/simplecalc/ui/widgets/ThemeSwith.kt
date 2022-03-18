@@ -1,5 +1,6 @@
 package br.com.amd.simplecalc.ui.widgets
 
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateFloatAsState
@@ -26,6 +27,8 @@ import br.com.amd.simplecalc.R
 import br.com.amd.simplecalc.ui.theme.Amber500
 import br.com.amd.simplecalc.ui.theme.Gray500
 
+private const val imageScaleFactor = 0.8f
+
 @Immutable
 data class ThemeSwitchColors(
     val checkedThumbColor: Color = Amber500,
@@ -36,14 +39,23 @@ data class ThemeSwitchColors(
     val uncheckedTrackBorderColor: Color = Amber500,
 )
 
+@Immutable
+data class ThemeSwitchImages(
+    @DrawableRes
+    val checkedImage: Int = R.drawable.ic_sunny,
+    @DrawableRes
+    val uncheckedImage: Int = R.drawable.ic_night
+)
+
 @Composable
 fun ThemeSwitch(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
-    colors: ThemeSwitchColors = ThemeSwitchColors(),
     width: Dp = 40.dp,
     borderWidth: Dp = 2.dp,
+    colors: ThemeSwitchColors = ThemeSwitchColors(),
+    images: ThemeSwitchImages = ThemeSwitchImages(),
     movementAnimSpec: AnimationSpec<Float> = tween(),
     colorsAnimSpec: AnimationSpec<Color> = tween(),
     enabled: Boolean = true,
@@ -91,7 +103,8 @@ fun ThemeSwitch(
                 .then(toggleableModifier),
             trackColor = trackColor,
             borderColor = borderColor,
-            imageSize = thumbDiameter * 0.8f,
+            images = images,
+            imageSize = thumbDiameter * imageScaleFactor,
             borderWidth = borderWidth
         )
         Thumb(
@@ -108,6 +121,7 @@ private fun Track(
     modifier: Modifier,
     trackColor: State<Color>,
     borderColor: State<Color>,
+    images: ThemeSwitchImages,
     imageSize: Dp,
     borderWidth: Dp
 ) = Box(
@@ -121,13 +135,13 @@ private fun Track(
         horizontalArrangement = Arrangement.SpaceAround
     ) {
         Image(
-            painterResource(R.drawable.ic_sunny),
+            painterResource(images.checkedImage),
             contentDescription = "",
             contentScale = ContentScale.Crop,
             modifier = Modifier.requiredSize(imageSize)
         )
         Image(
-            painterResource(R.drawable.ic_night),
+            painterResource(images.uncheckedImage),
             contentDescription = "",
             contentScale = ContentScale.Crop,
             modifier = Modifier.requiredSize(imageSize)
