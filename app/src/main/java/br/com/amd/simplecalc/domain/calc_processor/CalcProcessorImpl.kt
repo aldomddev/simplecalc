@@ -63,12 +63,13 @@ class CalcProcessorImpl @Inject constructor() : CalcProcessor {
     }
 
     private fun calcSquaredRoot(): String {
-        val result = calcResult()
-        return if (operation.isNotEmpty() && result.contains(operation)) {
-            result
-        } else {
-            sqrt(result.toDouble()).toString()
+        if (operation.isEmpty()) {
+            val result = sqrt(inputAccumulator.toString().toDouble())
+            clear()
+            inputAccumulator.replace(0, inputAccumulator.length, result.asFormattedString())
         }
+
+        return inputAccumulator.toString()
     }
 
     private fun calcResult(): String {
