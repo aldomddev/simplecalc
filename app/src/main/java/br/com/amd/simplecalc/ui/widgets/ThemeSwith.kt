@@ -80,13 +80,18 @@ fun ThemeSwitch(
 
     val height = width / 2
     val thumbDiameter = height - borderWidth * 2
-    Box(Modifier.requiredSize(width, height).background(MaterialTheme.colors.primary)) {
+    Box(
+        Modifier
+            .requiredSize(width, height)
+            .background(MaterialTheme.colors.primary)
+    ) {
         Track(
             modifier = modifier
                 .requiredSize(width, height)
                 .then(toggleableModifier),
             trackColor = trackColor,
             borderColor = borderColor,
+            imageSize = thumbDiameter * 0.8f,
             borderWidth = borderWidth
         )
         Thumb(
@@ -103,6 +108,7 @@ private fun Track(
     modifier: Modifier,
     trackColor: State<Color>,
     borderColor: State<Color>,
+    imageSize: Dp,
     borderWidth: Dp
 ) = Box(
     modifier = modifier
@@ -118,17 +124,13 @@ private fun Track(
             painterResource(R.drawable.ic_sunny),
             contentDescription = "",
             contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .width(10.dp)
-                .height(10.dp)
+            modifier = Modifier.requiredSize(imageSize)
         )
         Image(
             painterResource(R.drawable.ic_night),
             contentDescription = "",
             contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .width(10.dp)
-                .height(10.dp)
+            modifier = Modifier.requiredSize(imageSize)
         )
     }
 }

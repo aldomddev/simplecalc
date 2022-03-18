@@ -5,8 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Switch
@@ -16,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import br.com.amd.simplecalc.ui.theme.SimpleCalculatorTheme
 import br.com.amd.simplecalc.ui.widgets.CalcDisplay
 import br.com.amd.simplecalc.ui.widgets.CalcKeyPad
@@ -63,10 +63,13 @@ fun Calculator(
     onKeyPressed: (key: String) -> Unit
 ) {
     Column(modifier = Modifier.background(MaterialTheme.colors.primary)) {
-        ThemeSwitch(
-            checked = darkTheme,
-            onCheckedChange = { value -> onThemeChanged(value) }
-        )
+        Box(modifier = Modifier.padding(start = 10.dp, top = 10.dp)) {
+            ThemeSwitch(
+                width = 60.dp,
+                checked = darkTheme,
+                onCheckedChange = { value -> onThemeChanged(value) }
+            )
+        }
         CalcDisplay(value = displayValue)
         CalcKeyPad(
             darkTheme = darkTheme,
