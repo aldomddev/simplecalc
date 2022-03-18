@@ -8,6 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.amd.simplecalc.ui.theme.Amber100
+import br.com.amd.simplecalc.ui.theme.Amber500
+import br.com.amd.simplecalc.ui.theme.BlueGray50
 import br.com.amd.simplecalc.ui.theme.SimpleCalculatorTheme
 
 @Composable
@@ -15,6 +18,9 @@ fun CalcKeyPad(
     darkTheme: Boolean,
     onKeyPressed: (String) -> Unit
 ) {
+    val buttonBackgroundColor = if (darkTheme) Amber100 else BlueGray50
+    val buttonContentColor = Amber500
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -26,9 +32,10 @@ fun CalcKeyPad(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            SpecialCalcButton(
+            CalcButton(
                 key = "C",
-                darkTheme = darkTheme
+                backgroundColor = buttonBackgroundColor,
+                contentColor = buttonContentColor
             ) { key -> onKeyPressed(key) }
             CalcButton(
                 key = "\u221A"
@@ -36,9 +43,10 @@ fun CalcKeyPad(
             CalcButton(
                 key = "\u0025"
             ) { key -> onKeyPressed(key) }
-            SpecialCalcButton(
+            CalcButton(
                 key = "\u00F7",
-                darkTheme = darkTheme
+                backgroundColor = buttonBackgroundColor,
+                contentColor = buttonContentColor,
             ) { key -> onKeyPressed(key) }
         }
         Row(
@@ -55,9 +63,10 @@ fun CalcKeyPad(
             CalcButton(
                 key = "9"
             ) { key -> onKeyPressed(key) }
-            SpecialCalcButton(
+            CalcButton(
                 key = "\u00D7",
-                darkTheme = darkTheme
+                backgroundColor = buttonBackgroundColor,
+                contentColor = buttonContentColor
             ) { key -> onKeyPressed(key) }
         }
         Row(
@@ -74,9 +83,10 @@ fun CalcKeyPad(
             CalcButton(
                 key = "6"
             ) { key -> onKeyPressed(key) }
-            SpecialCalcButton(
+            CalcButton(
                 key = "\u2212",
-                darkTheme = darkTheme
+                backgroundColor = buttonBackgroundColor,
+                contentColor = buttonContentColor
             ) { key -> onKeyPressed(key) }
         }
         Row(
@@ -93,13 +103,14 @@ fun CalcKeyPad(
             CalcButton(
                 key = "3"
             ) { key -> onKeyPressed(key) }
-            SpecialCalcButton(
+            CalcButton(
                 key = "\u002B",
-                darkTheme = darkTheme
+                backgroundColor = buttonBackgroundColor,
+                contentColor = buttonContentColor
             ) { key -> onKeyPressed(key) }
         }
         Row(
-            modifier = Modifier.weight(1f).fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -109,10 +120,12 @@ fun CalcKeyPad(
             CalcButton(
                 key = "."
             ) { key -> onKeyPressed(key) }
-            SpecialCalcButton(
+            CalcButton(
                 key = "\u003D",
-                darkTheme = darkTheme,
-                modifier = Modifier.width(160.dp).height(80.dp)
+                width = 160.dp,
+                height = 60.dp,
+                backgroundColor = buttonBackgroundColor,
+                contentColor = buttonContentColor
             ) { key -> onKeyPressed(key) }
         }
     }
