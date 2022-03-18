@@ -23,6 +23,7 @@ The main purpose of this repository is to learn Jetpack Compose and basic concep
 
 ### Preview - highly inspired on the beautiful [work](https://dribbble.com/shots/8511065--dailyui-004-Calculator/attachments/797986?mode=media) of [Yusong Shi](https://dribbble.com/jackieshi)
 
+https://user-images.githubusercontent.com/47090245/158926937-5ee07ae6-4fd8-4ae9-85b7-4a1eb9e4af06.mp4
 
 
 ### Adjustments and improvements
